@@ -5,9 +5,9 @@ class Lexer(object):
             "false":"FALSE","nil":"NIL","class":"CLASS","or":"OR","and":"AND"
             ,"var":"VAR","for":"FOR","fun":"FUN","while":"WHILE"}
 
-    tokens = ["plus","minus","equals","colon","times","leftparenthensis","rightparenthensis",
+    tokens = ["plus","minus","equals","colon","times","leftpara","rightparenthensis",
             "leftclosure","rightclousure","integer","float","string","greaterthan","lessthan"
-            ,"identifier"]+list(key_words.values())
+            ,"identifier","whitespace"]+list(key_words.values())
     
     def _checknotkeyword(self,value):
         pass
@@ -23,19 +23,56 @@ class Lexer(object):
         r'\d+'
         t.type = self.key_words.get(t.value,"integer")
         return t
+    
+    def t_fun(self,t):
+         r'[a-zA-Z_][a-zA-Z_0-9]*'
+         t.type =  self.key_words.get(t.value,"fun")
+         return t
 
     def t_equals(self,t):
+        #equals lexer 
         r'=+'
         t.type = self.key_words.get(t.value,"equals")
         return t
 
-
-
-	t_ignore = '  \t' 
+    def t_colon(self,t):
+        r'\;+'
+        t.type = self.key_words.get(t.value,"colon")
+        return t
     
+    def t_minus(self,t):
+        r'\-+'
+        t.type = self.key_words.get(t.value,"minus")
+        return t 
+   
+    def t_times(self,t):
+	r'\*+'
+	t.type =  self.key_words.get(t.value,"times")
+	return t 
+
+    def t_plus(self,t):
+        r'\++'
+        t.type =  self.key_words.get(t.value,"plus")
+        return t
+
+    def t_whitespace(self,t):
+	r'(\s)'
+        t.type =  self.key_words.get(t.value,"whitespace")
+        return t
+    
+    def t_if(self,t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        t.type = self.key_words.get(t.value,'if')
+        return t
+   
+    def t_leftpara(self,t):
+	r'\('
+	t.type = self.key_words.get(t.value,"leftpara")
+	return t 
+        
     def t_error(self,t):
-        print("error {}",t.value)
-        t.lexer.skip(1)
+	print("error {}",t.value)
+	t.lexer.skip(1)
 
     def build(self,**kwargs):
          self.lexer = scanner.lex(module=self, **kwargs)
@@ -50,4 +87,4 @@ class Lexer(object):
 
 lexer = Lexer()
 lexer.build()
-lexer.test_function("x = 100")
+lexer.test_function("x=100; y=100 if(x > 10){")
