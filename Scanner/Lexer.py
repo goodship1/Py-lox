@@ -5,8 +5,8 @@ class Lexer(object):
             "false":"FALSE","nil":"NIL","class":"CLASS","or":"OR","and":"AND"
             ,"var":"VAR","for":"FOR","fun":"FUN","while":"WHILE"}
 
-    tokens = ["plus","minus","equals","colon","times","leftpara","rightparenthensis",
-            "leftclosure","rightclousure","integer","float","string","greaterthan","lessthan"
+    tokens = ["plus","minus","equals","colon","times","leftpara","rightpara",
+            "leftclosure","rightclosure","integer","float","string","greaterthan","lessthan"
             ,"identifier","whitespace"]+list(key_words.values())
     
     def _checknotkeyword(self,value):
@@ -17,6 +17,13 @@ class Lexer(object):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
         t.type = self.key_words.get(t.value,'identifier')
         return  t
+
+    def t_string(self,t):
+        r'"([^"\n]|(\\"))*"'
+        t.type = self.key_words.get(t.value,"string")
+        return t
+
+
 
     def t_integer(self,t):
         #rules for lexing integers 
@@ -74,6 +81,51 @@ class Lexer(object):
 	print("error {}",t.value)
 	t.lexer.skip(1)
 
+    def t_rightpara(self,t):
+        r'\)'
+        t.type = self.key_words.get(t.value,"rightpara")
+        return t
+
+    def t_greaterthan(self,t):
+        r'>'
+        t.type = self.key_words.get(t.value,"greaterthan")
+        return t
+
+    def t_rightclosure(self,t):
+        r'{'
+        t.type = self.key_words.get(t.value,"rightclosure")
+        return t 
+
+    def t_leftclosure(self,t):
+        r'}'
+        t.type = self.key_words.get(t.value,"leftclosure")
+        return t
+
+    def t_lessthan(self,t):
+        r'<'
+        t.type = self.key_words.get(t.value,"lessthan")
+        return t 
+
+    def t_greaterequal(self,t):
+        pass
+
+    def t_lessthanequal(self,t):
+        pass
+
+    
+    def t_times(self,t):
+        pass
+
+    def t_add(self,t):
+        pass
+
+    def t_or(self,t):
+        pass
+
+
+    
+
+
     def build(self,**kwargs):
          self.lexer = scanner.lex(module=self, **kwargs)
     
@@ -87,4 +139,5 @@ class Lexer(object):
 
 lexer = Lexer()
 lexer.build()
-lexer.test_function("x=100; y=100 if(x > 10){")
+lexer.test_function('''var x = "gavin";
+        fun printname(name){ print name;}''')
