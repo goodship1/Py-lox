@@ -7,7 +7,7 @@ class Lexer(object):
 
     tokens = ["plus","minus","equals","colon","times","leftpara","rightpara",
             "leftclosure","rightclosure","integer","float","string","greaterthan","lessthan"
-            ,"identifier","whitespace"]+list(key_words.values())
+            ,"identifier","whitespace","lessthanequal","greaterthanequal"]+list(key_words.values())
     
     def _checknotkeyword(self,value):
         pass
@@ -106,24 +106,17 @@ class Lexer(object):
         t.type = self.key_words.get(t.value,"lessthan")
         return t 
 
-    def t_greaterequal(self,t):
-        pass
-
-    def t_lessthanequal(self,t):
-        pass
-
-    
-    def t_times(self,t):
-        pass
-
-    def t_add(self,t):
-        pass
-
-    def t_or(self,t):
-        pass
-
+    def t_greaterthanequal(self,t):
+        'r([!<>])?([=>])?(?!<)'
+        t.type = self.key_words.get(t.value,"greaterthanequal")
+        return t
 
     
+
+    def t_print(self,t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        t.type = self.key_words.get(t.value,"print")
+        return t
 
 
     def build(self,**kwargs):
@@ -139,5 +132,10 @@ class Lexer(object):
 
 lexer = Lexer()
 lexer.build()
-lexer.test_function('''var x = "gavin";
-        fun printname(name){ print name;}''')
+lexer.test_function('''fun printname(name) {
+                    print name;
+                    }
+                    var second = "goodship";
+                    var x  = 100;
+                    var y = 200;
+                    x <= y;''')
