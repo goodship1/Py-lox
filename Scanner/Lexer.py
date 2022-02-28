@@ -7,7 +7,7 @@ class Lexer(object):
 
     tokens = ["plus","minus","equals","colon","times","leftpara","rightpara",
             "leftclosure","rightclosure","integer","float","string","greaterthan","lessthan"
-            ,"identifier","whitespace","lessthanequal","greaterthanequal","float","increment"]+list(key_words.values())
+            ,"identifier","whitespace","lessthanequal","greaterthanequal","float","increment","equalequal"]+list(key_words.values())
     
     def _checknotkeyword(self,value):
         pass
@@ -34,6 +34,10 @@ class Lexer(object):
         t.type = self.key_words.get(t.value,"else")
         return t
 
+    def t_increment(self,t):
+        r'\++'
+        t.type = self.key_words.get(t.value,"increment")
+        return t
 
     def t_string(self,t):
         r'"([^"\n]|(\\"))*"'
@@ -49,7 +53,11 @@ class Lexer(object):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
         t.type = self.key_words.get(t.value,"for")
         return t 
-
+    
+    def t_equalequal(self,t):
+        r'=='
+        t.type = self.key_words.get(t.value,"equalequal")
+        return t 
 
 
     def t_integer(self,t):
@@ -62,10 +70,16 @@ class Lexer(object):
          r'[a-zA-Z_][a-zA-Z_0-9]*'
          t.type =  self.key_words.get(t.value,"fun")
          return t
-	
+
     def t_greaterthanequal(self,t):
-        'r([!<>])?([=>])?(?!<)'
+        r'>='
         t.type = self.key_words.get(t.value,"greaterthanequal")
+        return t
+
+	
+    def t_lessthanequal(self,t):
+        r'<='
+        t.type = self.key_words.get(t.value,"lessthanequal")
         return t
     
     
@@ -91,7 +105,7 @@ class Lexer(object):
 	return t 
 
     def t_plus(self,t):
-        r'\++'
+        r'(\+)+'
         t.type =  self.key_words.get(t.value,"plus")
         return t
 
@@ -160,11 +174,4 @@ class Lexer(object):
 
 lexer = Lexer()
 lexer.build()
-lexer.test_function('''fun printname(name) {
-                    print name;
-                    }
-                    var second = "goodship";
-                    var x  = 100;
-                    var y = 200;
-                    x <= y;
-                    if(x<10){ print "wow"} else { print "too small"}''')
+lexer.test_function('''var x = 100; var y = 200; x+1;''')
