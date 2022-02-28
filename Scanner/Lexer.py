@@ -3,11 +3,11 @@ class Lexer(object):
     #lexer for the lox programming language
     key_words = {"if":"IF","else":"ELSE","print":"PRINT","true":"TRUE",
             "false":"FALSE","nil":"NIL","class":"CLASS","or":"OR","and":"AND"
-            ,"var":"VAR","for":"FOR","fun":"FUN","while":"WHILE"}
+            ,"var":"VAR","for":"FOR","fun":"FUN","while":"WHILE","return":"RETURN","init":"INIT"}
 
     tokens = ["plus","minus","equals","colon","times","leftpara","rightpara",
             "leftclosure","rightclosure","integer","float","string","greaterthan","lessthan"
-            ,"identifier","whitespace","lessthanequal","greaterthanequal","float","increment","equalequal"]+list(key_words.values())
+            ,"identifier","whitespace","lessthanequal","greaterthanequal","float","increment","equalequal","constructor"]+list(key_words.values())
     
     def _checknotkeyword(self,value):
         pass
@@ -27,17 +27,24 @@ class Lexer(object):
     def t_nil(self,t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
         t.type = self.key_words.get(t.value,"nil")
-        return t 
+        return t
+
+    def t_init(self,t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        t.type = self.key_words.get("init","constructor")
+        return t
+
+    
+    def t_plus(self,t):
+        r'\+'
+        t.type = self.key_words.get(t.value,"plus")
+        return t
     
     def t_else(self,t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
         t.type = self.key_words.get(t.value,"else")
         return t
 
-    def t_increment(self,t):
-        r'\++'
-        t.type = self.key_words.get(t.value,"increment")
-        return t
 
     def t_string(self,t):
         r'"([^"\n]|(\\"))*"'
@@ -104,10 +111,6 @@ class Lexer(object):
 	t.type =  self.key_words.get(t.value,"times")
 	return t 
 
-    def t_plus(self,t):
-        r'(\+)+'
-        t.type =  self.key_words.get(t.value,"plus")
-        return t
 
     def t_whitespace(self,t):
 	r'(\s)'
@@ -174,4 +177,10 @@ class Lexer(object):
 
 lexer = Lexer()
 lexer.build()
-lexer.test_function('''var x = 100; var y = 200; x+1;''')
+lexer.test_function(''' class gavin {
+                            init(name){
+                            print name;
+                            }
+                            second(){
+                            }
+                            }''')
