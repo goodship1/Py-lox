@@ -7,7 +7,7 @@ class Lexer(object):
 
     tokens = ["plus","minus","equals","colon","times","leftpara","rightpara",
             "leftclosure","rightclosure","integer","float","string","greaterthan","lessthan"
-            ,"identifier","whitespace","lessthanequal","greaterthanequal"]+list(key_words.values())
+            ,"identifier","whitespace","lessthanequal","greaterthanequal","float","increment"]+list(key_words.values())
     
     def _checknotkeyword(self,value):
         pass
@@ -18,10 +18,37 @@ class Lexer(object):
         t.type = self.key_words.get(t.value,'identifier')
         return  t
 
+    def t_float(self,t):
+		r'\d+\.\d+'
+		'[-+]?[0-9]+(\.([0-9]+)?([eE][-+]?[0-9]+)?|[eE][-+]?[0-9]+)'        
+		t.value = float(t.value)
+		return t
+    
+    def t_nil(self,t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        t.type = self.key_words.get(t.value,"nil")
+        return t 
+    
+    def t_else(self,t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        t.type = self.key_words.get(t.value,"else")
+        return t
+
+
     def t_string(self,t):
         r'"([^"\n]|(\\"))*"'
         t.type = self.key_words.get(t.value,"string")
         return t
+    
+    def t_while(self,t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        t.type = self.key_words.get(t.value,"while")
+        return t
+
+    def t_for(self,t):
+        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        t.type = self.key_words.get(t.value,"for")
+        return t 
 
 
 
@@ -35,7 +62,13 @@ class Lexer(object):
          r'[a-zA-Z_][a-zA-Z_0-9]*'
          t.type =  self.key_words.get(t.value,"fun")
          return t
-
+	
+    def t_greaterthanequal(self,t):
+        'r([!<>])?([=>])?(?!<)'
+        t.type = self.key_words.get(t.value,"greaterthanequal")
+        return t
+    
+    
     def t_equals(self,t):
         #equals lexer 
         r'=+'
@@ -106,11 +139,6 @@ class Lexer(object):
         t.type = self.key_words.get(t.value,"lessthan")
         return t 
 
-    def t_greaterthanequal(self,t):
-        'r([!<>])?([=>])?(?!<)'
-        t.type = self.key_words.get(t.value,"greaterthanequal")
-        return t
-
     
 
     def t_print(self,t):
@@ -138,4 +166,5 @@ lexer.test_function('''fun printname(name) {
                     var second = "goodship";
                     var x  = 100;
                     var y = 200;
-                    x <= y;''')
+                    x <= y;
+                    if(x<10){ print "wow"} else { print "too small"}''')
