@@ -3,7 +3,7 @@ class Lexer(object):
     #lexer for the lox programming language
     key_words = {"if":"IF","else":"ELSE","print":"PRINT","true":"TRUE",
             "false":"FALSE","nil":"NIL","class":"CLASS","or":"OR","and":"AND"
-            ,"var":"VAR","for":"FOR","fun":"FUN","while":"WHILE","return":"RETURN","init":"INIT"}
+            ,"var":"VAR","for":"FOR","fun":"FUN","while":"WHILE","return":"RETURN","init":"INIT","this":"THIS"}
 
     tokens = ["plus","minus","equals","colon","times","leftpara","rightpara",
             "leftclosure","rightclosure","integer","float","string","greaterthan","lessthan"
@@ -99,7 +99,7 @@ class Lexer(object):
     def t_colon(self,t):
         r'\;+'
         t.type = self.key_words.get(t.value,"colon")
-        return t
+       return t
     
     def t_minus(self,t):
         r'\-+'
@@ -175,12 +175,4 @@ class Lexer(object):
                 break
             print(tokens)
 
-lexer = Lexer()
-lexer.build()
-lexer.test_function(''' class gavin {
-                            init(name){
-                            print name;
-                            }
-                            second(){
-                            }
-                            }''')
+
