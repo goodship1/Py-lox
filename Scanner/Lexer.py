@@ -99,7 +99,7 @@ class Lexer(object):
     def t_colon(self,t):
         r'\;+'
         t.type = self.key_words.get(t.value,"colon")
-       return t
+        return t
     
     def t_minus(self,t):
         r'\-+'
@@ -175,4 +175,6 @@ class Lexer(object):
                 break
             print(tokens)
 
-
+lexer = Lexer()
+lexer.build()
+lexer.test_function('''var x  = 10; x<200;''')
