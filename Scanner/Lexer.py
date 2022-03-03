@@ -9,8 +9,7 @@ class Lexer(object):
             "leftclosure","rightclosure","integer","float","string","greaterthan","lessthan"
             ,"identifier","whitespace","lessthanequal","greaterthanequal","float","increment","equalequal","constructor"]+list(key_words.values())
     
-    def _checknotkeyword(self,value):
-        pass
+
 
     def t_indentifier(self,t):
         #indentifiers follow the following grammar var id = type; eg var name = "lox"
@@ -168,6 +167,7 @@ class Lexer(object):
          self.lexer = scanner.lex(module=self, **kwargs)
     
     def test_function(self,src):
+        #for testing purposes only 
         self.lexer.input(src)
         while True:
             tokens = self.lexer.token()
@@ -177,4 +177,4 @@ class Lexer(object):
 
 lexer = Lexer()
 lexer.build()
-lexer.test_function('''var x  = true;''')
+
