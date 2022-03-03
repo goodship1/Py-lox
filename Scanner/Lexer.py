@@ -177,4 +177,4 @@ class Lexer(object):
 
 lexer = Lexer()
 lexer.build()
-lexer.test_function('''var x  = 10; x<200;''')
+lexer.test_function('''var x  = true;''')

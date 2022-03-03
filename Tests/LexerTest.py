@@ -71,7 +71,7 @@ class LexerTests(object):
         if plus in assignmentarray and self.variable in assignmentarray:
             return True
         else:
-            return FalseLexToken(plus,'+',1,27)
+            return False
 
     def substractingtwovariablestest(self):
         #substracting two varables
@@ -108,7 +108,7 @@ class LexerTests(object):
     def lessthanequalintegertest(self):
         #less than equal integer
         lessthanequalinteger = ''' var x = 200; x<=200;'''
-        lessthanequal = '''LexToken(lessthan,'<',1,14)'''
+        lessthanequal = '''LexToken(lessthanequal,'<=',1,14)'''
         assignmentarray = [self.lexer.test_function(lessthanequalinteger)]
         if self.variable in assignmentarray and lessthanequal in assignmentarray:
             return True
@@ -121,35 +121,94 @@ class LexerTests(object):
     def lessthanfloattest(self):
         #less than float test
         lessthanfloat =  '''var x = 100.0; x<200.0;'''
+        lessthanequal = '''LexToken(lessthanequal,'<=',1,14)'''
+        assignmentarray = [self.lexer.test_function(lessthanequal)]
+        if self.variable in assignmentarray  and lessthanequal in assignmentarray:
+            return True
+        else:
+            return False
+
+
 
     def lessthanequalfloattest(self):
         #lessthan floating point lexer rules
         lessthanequalfloat = '''var x = 100.0 x<=200.0'''
+        lessthanequal = '''LexToken(lessthanequal,'<=',1,14)'''
+        assignmentarray = [self.lexer.test_function(lessthanequal)]
+        if self.variable in assignmentarray and lessthanequal in assignmentarray:
+            return True
+        else:
+            return False
+
 
     def greaterthanintegertest(self):
         #greaterthaninteger test
         greaterthaninteger = '''var x = 200; x>100;'''
+        greaterthan = '''LexToken(greaterthan,'>',1.14)'''
+        assignmentarray = [self.lexer.test_function(greaterthaninteger)]
+        if self.variable in assignmentarray and greaterthan in assignmentarray:
+            return True
+        else:
+            return False
     
     def greaterthanfloattest(self):
         #greaterthanfloat test
-        greaterthanfloat = '''var x = 100.0; x<200.0;'''
+        greaterthanfloat = '''var x = 100.0; x>200.0;'''
+        greaterthan = '''LexToken(greaterthan,'>',1.14)'''
+        assignmentarray = [self.lexer.test_function(greaterthanfloat)]
+        if self.variable in assignmentarray and greaterthan in assignmentarray:
+            return True
+        else:
+            return False
+
+
 
     def greaterthanequalintegertest(self):
         #greater than equal integer
         greatherthanequalinteger = '''var x  = 200; x>=200;'''
+        greaterthan = '''LexToken(greaterthan,'>',1.14)'''
+        assignmentarray = [self.lexer.test_function(greaterthaninteger)]
+        if self.variable in assignmentarray and greaterthan in assignmentarray:
+            return True
+        else:
+            return False
+
 
     def greaterthanequalfloattest(self):
         #greater than equal float test
         greatherthaneqaulfloat = '''var x = 200.0; x>=200.0;'''
+        greaterthan = '''LexToken(greaterthanequal,'>=',1.14)'''
+        assignmentarray = [self.lexer.test_function(greaterthanequalfloat)]
+        if self.variable in assignmentarray and greaterthan in assignmentarray:
+			return True
+		else:
+			return False
+			
+        
+        
 
     def booltestoftrue(self):
         #true key word test
-        trueassignment= '''var x  = true;'''
+        trueassignment = '''var x  = true;'''
+        truestring = '''LexToken(TRUE,'true',1,9)'''
+        assignmentarray = [self.lexer.test_function(trueassignment)]
+        if self.variable in assignmentarray and truestring in assignmentarray:
+			return True
+		else:
+			return False
+        
+
+
 
     def booltestfalse(self):
         #false key word test
         falseassignment = '''var x  = false;'''
-
+        falsestring = '''LexToken(FALSE,'false',1,9)'''
+        assignmentarray = [self.lexer.test_function(falseassignment)]
+		if self.variable in assignmentarray and falsestring in assignmentarray:
+			return True
+		else:
+			return False
     
 tests =  LexerTests()
 tests.integerassignmenttest()        
