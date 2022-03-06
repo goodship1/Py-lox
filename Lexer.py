@@ -21,7 +21,8 @@ def t_float(t):
 		'[-+]?[0-9]+(\.([0-9]+)?([eE][-+]?[0-9]+)?|[eE][-+]?[0-9]+)'        
 		t.value = float(t.value)
 		return t
-    
+t_ignore  = ' \t'
+
 def t_nil(t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
         t.type = key_words.get(t.value,"nil")
@@ -110,10 +111,10 @@ def t_times(t):
 	return t 
 
 
-def t_whitespace(t):
-		r'(\s)'
-		t.type =  key_words.get(t.value,"whitespace")
-		return t
+#def t_whitespace(t):
+#		r'(\s)'
+#		t.type =  key_words.get(t.value,"whitespace")
+#		return t
 
 def t_if(t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
