@@ -13,6 +13,7 @@ def p_assignment(p):
                   '''
 
     p[0] = ('assignment',p[2],p[3],p[4])
+    symboltable[p[1]] = p[3]# populate symbol table
 
 
 def safeeval(expression):
@@ -35,13 +36,66 @@ def p_assignmentofexpression(p):
 def p_variableaddition(p):
     #rules to for adding to integers
     'varaddvar : identifier plus identifier colon'
-    if p[1] in symboltable and p[2] in symboltable:
-        p[0] = ("variableadd",p[1],p[2],p[3])
-    else:
-        p_error("s")
+    if p[1] in symboltable and p[3] in symboltable:
+        p[1] = symboltable[p[1]]
+        p[3] = symboltable[p[3]]
+        p[0] = ("varaddvar",p[1],p[2],p[3])
+
+def p_variablesubtraction(p):
+    'varsubvar : identifier minus identifier colon'
+    if p[1] in symboltable and p[3] in symboltable:
+        p[1] = symboltable[p[1]]
+        p[3] = symboltable[p[3]]
+        p[0] = ("varsubvar",p[1],p[2],p[3])
+
+def p_variabletimesvariable(p):
+    'vartimesvar : identifier times identifier colon'
+    if p[1] in symboltable and p[3] in symboltable:
+        p[1] =  symbolable[p[1]]
+        p[3] = symboltable[p[3]]
+        p[0] = ("vartimesvar",p[1],p[2],p[3])
+
+def p_variablelessthanvariable(p):
+    'varlessthanvar : identifier lessthan identifier colon'
+    if p[1] in symboltable and p[3] in symboltable:
+        p[1] = symboltable[p[1]]
+        p[3] = symboltable[p[3]]
+        p[0] = ("varlessthanvar",p[1],p[2],p[3])
+
+def p_variablegreaterthanvariable(p):
+    'vargreaterthanvar : identifier greaterthan identifier colon'
+    if p[1] in symboltable and p[3] in symboltable:
+        p[1] = symboltable[p[1]]
+        p[3] = symboltable[p[3]]
+        p[0] = ("vargreaterthanvar",p[1],p[2],p[3])
+
+def p_variableequalequal(p):
+    'varequalequalvar : indentifer equalequal identifer colon'
+    if p[1] in symboltable and p[3] in symboltable:
+        p[1] = symboltable[p[1]]
+        p[3] = symboltable[p[3]]
+        p[0] = ("varequalvar",p[1],p[2],p[3])
+
+def p_variablegreaterthanequal(p):
+    'vargreaterthanequal : identifer greaterthanequal identifer colon'
+    if p[1] in symboltable and p[3] in symboltable:
+        p[1] = symboltable[p[1]]
+        p[3] = symboltable[p[3]]
+        p[0] = ("vargreaterthanequal",p[1],p[2],p[3])
+
+def p_variablelessthanequal(p):
+    pass
+
+def p_equalequalterm(p):
+    'equalequalterm : term equalequal term colon'
+    p[0] = ("equalequalterm",p[0],p[1],p[2])
 
 
- 
+
+def p_greaterthanequalterm(p):
+    'greaterequalterm : term greaterthanequal term colon'
+    p[0] = ("greaterthanterm",p[1],p[2],p[3])
+
 
 def p_add(p):
     #non variable addition eg 1+1;
@@ -72,6 +126,10 @@ def p_equalequalto(p):
 def p_lessequal(p):
     'lessequal : term lessthanequal term colon'
     p[0] = ("lessequal",p[1],p[2],p[3])
+
+def p_greaterequal(p):
+    'greaterequal : greaterthanequal'
+    p[0] = p[1]
 
 
 
@@ -141,7 +199,7 @@ def p_plus(p):
     'expression : plus'
     p[0] = p[1]
 
-start = 'expression'
+start = 'varaddvar'
 parser = yacc.yacc(start = start)
 while True:
     try:

@@ -87,8 +87,7 @@ def t_lessthanequal(t):
         r'<='
         t.type = key_words.get(t.value,"lessthanequal")
         return t
-    
-    
+       
 def t_equals(t):
         #equals lexer 
         r'=+'
