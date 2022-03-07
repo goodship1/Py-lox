@@ -2,7 +2,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 from Lexer import tokens
 
-symboltable = {}
+symboltable = {'x':1}
 
 def p_assignment(p):
     '''assignment : VAR identifier  equals  term colon
@@ -32,6 +32,16 @@ def p_assignmentofexpression(p):
                 '''
     p[0] = ("assignment",p[2],p[3],p[4],p[5],p[6])
 
+def p_variableaddition(p):
+    #rules to for adding to integers
+    'varaddvar : identifier plus identifier colon'
+    if p[1] in symboltable and p[2] in symboltable:
+        p[0] = ("variableadd",p[1],p[2],p[3])
+    else:
+        p_error("s")
+
+
+ 
 
 def p_add(p):
     #non variable addition eg 1+1;
@@ -39,7 +49,7 @@ def p_add(p):
     p[0] = ('add',p[1],p[2],p[3])
 
 def p_substract(p):
-    'sub : term miunus term colon'
+    'sub : term minus term colon'
     p[0] = ('sub',p[1],p[2],p[3])
 
 def p_mutiply(p):
@@ -62,10 +72,6 @@ def p_equalequalto(p):
 def p_lessequal(p):
     'lessequal : term lessthanequal term colon'
     p[0] = ("lessequal",p[1],p[2],p[3])
-
-def p_greaterequal(p):
-    'greaterequal : term greaterthaneqaul term colon'
-    p[0] = ("greaterequal",p[1],p[2],p[3])
 
 
 
@@ -135,7 +141,7 @@ def p_plus(p):
     'expression : plus'
     p[0] = p[1]
 
-start = 'add'
+start = 'expression'
 parser = yacc.yacc(start = start)
 while True:
     try:
