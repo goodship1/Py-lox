@@ -33,6 +33,15 @@ def p_assignmentofexpression(p):
                 '''
     p[0] = ("assignment",p[2],p[3],p[4],p[5],p[6])
 
+def p_variablechange(p):
+    #rule for swapping variables x = y if y exists
+    'varchange : identifer equals identifer colon'
+    if p[1] in symboltable and p[3] in symboltable:
+        p[1] = symboltable[p[3]]
+        p[0] = ("varchange",p[1],p[2],p[3])
+
+    
+
 def p_variableaddition(p):
     #rules to for adding to integers
     'varaddvar : identifier plus identifier colon'
@@ -77,14 +86,19 @@ def p_variableequalequal(p):
         p[0] = ("varequalvar",p[1],p[2],p[3])
 
 def p_variablegreaterthanequal(p):
-    'vargreaterthanequal : identifer greaterthanequal identifer colon'
+    'vargreaterthanequal : identifier greaterthanequal identifier colon'
     if p[1] in symboltable and p[3] in symboltable:
         p[1] = symboltable[p[1]]
         p[3] = symboltable[p[3]]
         p[0] = ("vargreaterthanequal",p[1],p[2],p[3])
 
 def p_variablelessthanequal(p):
-    pass
+    'varlessthanequalvar : identifier lessthanequal identifier colon'
+    if p[1] in symboltable and p[3] in symboltable:
+        p[1] = symboltable[p[1]]
+        p[3] = symboltable[p[3]]
+        p[0] = ("varlessthanequalvar",p[1],p[2],p[3])
+        
 
 def p_equalequalterm(p):
     'equalequalterm : term equalequal term colon'
