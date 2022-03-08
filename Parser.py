@@ -35,12 +35,39 @@ def p_assignmentofexpression(p):
 
 def p_variablechange(p):
     #rule for swapping variables x = y if y exists
-    'varchange : identifer equals identifer colon'
+    'varchange : identifier equals identifier colon'
     if p[1] in symboltable and p[3] in symboltable:
         p[1] = symboltable[p[3]]
         p[0] = ("varchange",p[1],p[2],p[3])
 
     
+
+def p_printstatement(p):
+    '''printstatement : PRINT term colon 
+                    | PRINT identifier colon
+                    | PRINT str colon
+                    '''
+    p[0] =("printstatement",p[2]) 
+
+
+def p_printexpression(p):
+    '''printexpression : PRINT term plus term colon
+                       | PRINT term minus term colon
+                       | PRINT term times term colon
+                       | PRINT term lessthan term colon
+                       | PRINT term greaterthan term colon
+                       | PRINT term equalequal term colon
+                       | PRINT term greaterthanequal term colon
+                       | PRINT term lessthanequal term colon
+                       '''
+     p[0] = ("printexpression",p[1],p[2],p[3])
+
+    
+
+#def p_functions(p):
+    #'funct : FUN identifier leftpara rightpara leftclosure assignment return assignment rightclosure'
+    #example of the above grammar fun helloword() { var x  = 10; return x }
+
 
 def p_variableaddition(p):
     #rules to for adding to integers
@@ -79,7 +106,7 @@ def p_variablegreaterthanvariable(p):
         p[0] = ("vargreaterthanvar",p[1],p[2],p[3])
 
 def p_variableequalequal(p):
-    'varequalequalvar : indentifer equalequal identifer colon'
+    'varequalequalvar : identifier equalequal identifier colon'
     if p[1] in symboltable and p[3] in symboltable:
         p[1] = symboltable[p[1]]
         p[3] = symboltable[p[3]]
@@ -109,6 +136,11 @@ def p_equalequalterm(p):
 def p_greaterthanequalterm(p):
     'greaterequalterm : term greaterthanequal term colon'
     p[0] = ("greaterthanterm",p[1],p[2],p[3])
+
+
+def p_fun(p):
+    'fun : FUN'
+    p[0] = p[1]
 
 
 def p_add(p):
@@ -174,6 +206,9 @@ def p_times(p):
     'expression : times'
     p[0] = p[1]
 
+def p_print(p):
+    'print : PRINT'
+    p[0] = p[1]
 
 def p_nil(p):
     'nil : NIL'
@@ -213,7 +248,7 @@ def p_plus(p):
     'expression : plus'
     p[0] = p[1]
 
-start = 'varaddvar'
+start = 'printstatement'
 parser = yacc.yacc(start = start)
 while True:
     try:
