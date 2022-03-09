@@ -63,16 +63,40 @@ def p_printexpression(p):
     p[0] = ("printexpression",p[1],p[2],p[3])
 
 def p_functioncall(p):
-    'funccall : FUN identifier leftfunction identifier rightfunction colon'
+    'funccall : identifier leftfunction identifier rightfunction colon'
     p[0] = ("function-call",p[2],p[4])
 
     
 def p_functions(p):
-    'funct : FUN identifier leftfunction identifier rightfunction rightclosure  RETURN identifier colon leftclosure'
-    #example of the above grammar fun hello(a){ return a;}
-    print(len(p))
+    '''func : FUN identifier leftfunction identifier rightfunction rightclosure  RETURN identifier colon leftclosure
+             | FUN identifier leftfunction identifier rightfunction rightclosure RETURN str colon leftclosure
+             | FUN identifier leftfunction identifier rightfunction rightclosure RETURN term colon leftclosure'''
+    #example of the above grammar fun hello(id){ return type;}
     p[0] = ("function",p[2],p[4],p[7],p[8])
     symboltable[p[2]] = p[0]
+
+def p_functionexpressions(p):
+    '''funcexp : FUN identifier leftfunction identifier rightfunction rightclosure varaddterm RETURN identifier colon leftclosure
+               | FUN identifier leftfunction identifier rightfunction rightclosure varminusterm RETURN identifier colon leftclosure
+               | FUN identifier leftfunction identifier rightfunction rightclosure vartimesterm RETURN identifier colon leftclosure'''
+    p[0] = ("functionexpression",p[2],p[4],p[7],p[8],p[9])
+    symboltable[p[2]] = p[0]
+
+
+def p_variableaddterm(p):
+    'varaddterm : identifier plus term colon'
+    p[0] = ("varaddterm" , p[1] ,p[2],p[3])
+
+def p_variableminusterm(p):
+    'varminusterm : identifier minus term colon '
+    p[0] = ("varminusterm",p[1],p[2],p[3])
+
+def p_variabletimesterm(p):
+    'vartimesterm : identifier times term colon'
+    p[0] = ("vartimesterm",p[1],p[2],p[3])
+
+
+
 
 
 def p_variableaddition(p):
@@ -272,8 +296,8 @@ def p_plus(p):
     'expression : plus'
     p[0] = p[1]
 
-start = 'funccall'
-parser = yacc.yacc(start = start)
+start = 'funcexp'
+parser = yacc.yacc(start=start)
 while True:
     try:
         s = raw_input('Lox > ')
