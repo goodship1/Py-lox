@@ -60,13 +60,14 @@ def p_printexpression(p):
                        | PRINT term greaterthanequal term colon
                        | PRINT term lessthanequal term colon
                        '''
-     p[0] = ("printexpression",p[1],p[2],p[3])
+    p[0] = ("printexpression",p[1],p[2],p[3])
+
 
     
-
-#def p_functions(p):
-    #'funct : FUN identifier leftpara rightpara leftclosure assignment return assignment rightclosure'
-    #example of the above grammar fun helloword() { var x  = 10; return x }
+def p_functions(p):
+    'funct : FUN identifier leftfunction identifier rightfunction rightclosure  RETURN identifier colon leftclosure'
+    #example of the above grammar fun hello(a){ return a;}
+    p[0] = ("function",p[2],p[4],p[7],p[8])
 
 
 def p_variableaddition(p):
@@ -187,6 +188,9 @@ def p_greaterthanequal(p):
     'expression : greaterthanequal'
     p[0] = p[1]
 
+def p_return(p):
+    'ret : RETURN'
+    p[0] = p[1]
 
 
 def p_lessthan(p):
@@ -232,6 +236,21 @@ def p_float(p):
     'term : float'
     p[0] = p[1]
 
+def p_leftpara(p):
+    'leftfunction : leftpara'
+    p[0] = p[1]
+
+def p_rightpara(p):
+    'rightfunction : rightpara'
+    p[0] = p[1]
+
+def p_leftclosure(p):
+    'leftclo : leftclosure'
+    p[0] = p[1]
+
+def p_rightclosure(p):
+    'rightclo : rightclosure'
+    p[0] = p[1]
 
 def p_string(p):
     'str : string'
@@ -248,7 +267,7 @@ def p_plus(p):
     'expression : plus'
     p[0] = p[1]
 
-start = 'printstatement'
+start = 'funct'
 parser = yacc.yacc(start = start)
 while True:
     try:
