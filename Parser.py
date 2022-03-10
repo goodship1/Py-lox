@@ -78,9 +78,27 @@ def p_functions(p):
 def p_functionexpressions(p):
     '''funcexp : FUN identifier leftfunction identifier rightfunction rightclosure varaddterm RETURN identifier colon leftclosure
                | FUN identifier leftfunction identifier rightfunction rightclosure varminusterm RETURN identifier colon leftclosure
-               | FUN identifier leftfunction identifier rightfunction rightclosure vartimesterm RETURN identifier colon leftclosure'''
+               | FUN identifier leftfunction identifier rightfunction rightclosure vartimesterm RETURN identifier colon leftclosure
+               | FUN identifier leftfunction identifier rightfunction rightclosure varequalequalterm RETURN identifier colon leftclosure
+               | FUN identifier leftfunction identifier rightfunction rightclosure varlessthenterm RETURN identifier colon leftclosure
+               | FUN identifier leftfunction identifier rightfunction rightclosure vargreaterequalterm RETURN identifier colon leftclosure'''
     p[0] = ("functionexpression",p[2],p[4],p[7],p[8],p[9])
     symboltable[p[2]] = p[0]
+
+def p_variablelessthanterm(p):
+    'varlessthenterm : identifier lessthan term colon'
+    p[0] = ("varlessthanterm",p[1],p[2],p[3])
+
+def p_variablegreaterthanterm(p):
+    'vargreaterthanterm : identifier greaterthan term colon'
+    p[0] = ("vargreaterthanterm",p[1],p[2],p[3])
+
+def p_variableequalequalterm(p):
+    'varequalequalterm : identifier equalequal term colon'
+    p[0] = ("varequaleqaulterm",p[1],p[2],p[3])
+
+
+
 
 
 def p_variableaddterm(p):
@@ -156,16 +174,25 @@ def p_variablelessthanequal(p):
         p[3] = symboltable[p[3]]
         p[0] = ("varlessthanequalvar",p[1],p[2],p[3])
         
+def p_vargreaterthanequalterm(p):
+    'vargreaterequalterm : identifier greaterthanequal term colon'
+    p[0] = ("vargreaterequalterm",p[1],p[2],p[3])
 
-def p_equalequalterm(p):
+def  p_equalequalterm(p):
     'equalequalterm : term equalequal term colon'
     p[0] = ("equalequalterm",p[0],p[1],p[2])
+
+
+def p_varlessthanequalterm(p):
+    'varlessthanequalterm : identifier lessthanequal term colon'
+    p[0] = ("varlessthanequalterm", p[1],p[2],p[3])
 
 
 
 def p_greaterthanequalterm(p):
     'greaterequalterm : term greaterthanequal term colon'
     p[0] = ("greaterthanterm",p[1],p[2],p[3])
+
 
 
 def p_fun(p):
