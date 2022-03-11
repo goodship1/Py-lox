@@ -85,6 +85,12 @@ def p_functionexpressions(p):
     p[0] = ("functionexpression",p[2],p[4],p[7],p[8],p[9])
     symboltable[p[2]] = p[0]
 
+def p_functionsmutiple(p):
+    'funmulti : FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier plus identifier colon leftclosure'
+    p[0] = ("funcexp",p[2],p[4] ,p[8])
+    symboltable[p[2]] = p[0]
+
+
 def p_variablelessthanterm(p):
     'varlessthenterm : identifier lessthan term colon'
     p[0] = ("varlessthanterm",p[1],p[2],p[3])
@@ -97,8 +103,9 @@ def p_variableequalequalterm(p):
     'varequalequalterm : identifier equalequal term colon'
     p[0] = ("varequaleqaulterm",p[1],p[2],p[3])
 
-
-
+def p_functionargs(p):
+    'args : identifier identifier '
+    p[0] = ('args',p[1],p[2])
 
 
 def p_variableaddterm(p):
@@ -323,7 +330,7 @@ def p_plus(p):
     'expression : plus'
     p[0] = p[1]
 
-start = 'funcexp'
+start = 'funmulti'
 parser = yacc.yacc(start=start)
 while True:
     try:
