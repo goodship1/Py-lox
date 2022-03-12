@@ -6,7 +6,7 @@ key_words = {"if":"IF","else":"ELSE","print":"PRINT","true":"TRUE",
 
 tokens = ["plus","minus","equals","colon","times","leftpara","rightpara",
             "leftclosure","rightclosure","integer","float","string","greaterthan","lessthan"
-            ,"identifier","whitespace","lessthanequal","greaterthanequal","float","increment","equalequal","constructor"]+list(key_words.values())
+            ,"identifier","whitespace","lessthanequal","greaterthanequal","float","equalequal","constructor"]+list(key_words.values())
    
 
 
@@ -110,10 +110,6 @@ def t_times(t):
 	return t 
 
 
-#def t_whitespace(t):
-#		r'(\s)'
-#		t.type =  key_words.get(t.value,"whitespace")
-#		return t
 
 def t_if(t):
         r'[a-zA-Z_][a-zA-Z_0-9]*'
