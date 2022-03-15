@@ -87,11 +87,11 @@ def p_functionexpressions(p):
 
 def p_functionsmutiple(p):
     '''funmulti : FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier plus identifier colon leftclosure
-				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifer minus indetnifer colon leftclosure
-				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier times identifer colon leftclosure
-				| FUN identifier leftfunction identifer identifier rightfunction rightclosure RETURN identifier equalsequals identifier colon
-				| FUN identifer leftfunction identifier identifier rightfunction rightclosure RETURN identifier greaterthan identifier colon leftclosure
-				|FUN identifier leftfunction identifier identifer rightfunction rightclosure RETURN identifier lessthan identifer colon leftclosure'''
+				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier minus identifier colon leftclosure
+				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier times identifier colon leftclosure
+				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier varequalequalvar identifier colon
+				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier greaterthan identifier colon leftclosure
+				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier lessthan identifier colon leftclosure'''
     p[0] = ("funcexp",p[2],p[4] ,p[5],p[9],p[10],p[11])
     symboltable[p[2]] = p[0]
 
@@ -165,7 +165,7 @@ def p_variablegreaterthanvariable(p):
         p[3] = symboltable[p[3]]
         p[0] = ("vargreaterthanvar",p[1],p[2],p[3])
 
-def p_variableequalequal(p):
+def p_variableequalqual(p):
     'varequalequalvar : identifier equalequal identifier colon'
     if p[1] in symboltable and p[3] in symboltable:
         p[1] = symboltable[p[1]]
