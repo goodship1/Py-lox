@@ -89,7 +89,7 @@ def p_functionsmutiple(p):
     '''funmulti : FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier plus identifier colon leftclosure
 				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier minus identifier colon leftclosure
 				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier times identifier colon leftclosure
-				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN varequalequalvar leftclosure
+				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN varequalequalvar colon leftclosure
 				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier greaterthan identifier colon leftclosure
 				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier lessthan identifier colon leftclosure'''
     p[0] = ("funcexp",p[2],p[4] ,p[5],p[9],p[10],p[11])
