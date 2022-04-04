@@ -92,7 +92,8 @@ def p_functionsmutiple(p):
 				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN varequalequalvar colon leftclosure
 				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier greaterthan identifier colon leftclosure
 				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier lessthan identifier colon leftclosure
-				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier greaterthanequal identifier colon leftclosure'''
+				| FUN identifier leftfunction identifier identifier rightfunction rightclosure RETURN identifier greaterthanequal identifier colon leftclosure
+				| FUN indentifier leftfunction identifier identifier rightfuction rightclosure RETURN identifier equalequal identifier colon leftclosure'''
     p[0] = ("funcexp",p[2],p[4] ,p[5],p[9],p[10],p[11])
     symboltable[p[2]] = p[0]
 
