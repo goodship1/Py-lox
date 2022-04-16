@@ -2,7 +2,7 @@ import ply.lex as lex
 import ply.yacc as yacc
 from Lexer import tokens
 
-symboltable = {'x':1}
+symboltable = {}
 
 def p_assignment(p):
     '''assignment : VAR identifier  equals  term colon
@@ -16,9 +16,6 @@ def p_assignment(p):
     symboltable[p[1]] = p[3]# populate symbol table
 
 
-def safeeval(expression):
-    #function limit can be passe to eval
-    pass
 
 def p_assignmentofexpression(p):
     '''assignment : VAR identifier equals term plus term colon
@@ -63,7 +60,9 @@ def p_printexpression(p):
     p[0] = ("printexpression",p[1],p[2],p[3])
 
 def p_functioncall(p):
-    'funccall : identifier leftfunction identifier rightfunction colon'
+    '''funccall : identifier leftfunction identifier rightfunction colon
+				| identifier leftfunction identifier identifier' rightfunction colon
+				|identifier leftfunction rightfunction colon'''
     p[0] = ("function-call",p[2],p[4])
 
     
