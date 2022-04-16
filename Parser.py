@@ -5,6 +5,7 @@ from Lexer import tokens
 symboltable = {}
 
 def p_assignment(p):
+    #assignment of single terms of variables eg var x = 10;
     '''assignment : VAR identifier  equals  term colon
                   | VAR identifier equals str colon
                   | VAR identifier equals true colon
@@ -18,6 +19,8 @@ def p_assignment(p):
 
 
 def p_assignmentofexpression(p):
+	# assignment of expressions  var x = 1 + 1;
+	
     '''assignment : VAR identifier equals term plus term colon
                 | VAR identifier equals term minus term colon
                 | VAR identifier equals term times term colon
@@ -40,6 +43,7 @@ def p_variablechange(p):
     
 
 def p_printstatement(p):
+    # print statement of terms print name;
     '''printstatement : PRINT term colon 
                     | PRINT identifier colon
                     | PRINT str colon
@@ -48,6 +52,7 @@ def p_printstatement(p):
 
 
 def p_printexpression(p):
+	#print expresssion rule eg print 1+1;
     '''printexpression : PRINT term plus term colon
                        | PRINT term minus term colon
                        | PRINT term times term colon

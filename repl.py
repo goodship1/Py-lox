@@ -1,9 +1,9 @@
-#repl to test the lox programming language
+#repl for interacting with the interperter
 
 class Repl(object):
 
     def __str__(self):
-        return "basic repl for the lox programming language"
+        return "class for interacting with the interperter"
     
     def runrepl(self):
         pass
